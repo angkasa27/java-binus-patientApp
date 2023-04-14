@@ -2,10 +2,13 @@ import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -34,7 +37,7 @@ public class PatientTableView extends Application {
     TableColumn<Patient, LocalDate> dobColumn = new TableColumn<>("Tanggal Lahir");
     dobColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-    TableColumn<Patient, Void> updateColumn = new TableColumn<>("Update");
+    TableColumn<Patient, Void> updateColumn = new TableColumn<>("");
     updateColumn.setCellFactory(column -> new TableCell<Patient, Void>() {
       private final Button updateButton = new Button("Update");
 
@@ -62,7 +65,7 @@ public class PatientTableView extends Application {
       }
     });
 
-    TableColumn<Patient, Void> deleteColumn = new TableColumn<>("Delete");
+    TableColumn<Patient, Void> deleteColumn = new TableColumn<>("");
     deleteColumn.setCellFactory(column -> new TableCell<Patient, Void>() {
       private final Button deleteButton = new Button("Delete");
 
@@ -76,10 +79,15 @@ public class PatientTableView extends Application {
           Patient patient = getTableView().getItems().get(getIndex());
 
           deleteButton.setOnAction(event -> {
-            patientDao.deletePatient(patient.getNik());
+            Alert alert = new Alert(AlertType.CONFIRMATION, "Apakah anda yakin ingin menghapus pasien ini?",
+                ButtonType.YES, ButtonType.NO);
+            alert.showAndWait();
+            if (alert.getResult() == ButtonType.YES) {
+              patientDao.deletePatient(patient.getNik());
 
-            List<Patient> updatedPatients = patientDao.getAllPatients();
-            patientObservableList.setAll(updatedPatients);
+              List<Patient> updatedPatients = patientDao.getAllPatients();
+              patientObservableList.setAll(updatedPatients);
+            }
           });
 
           setGraphic(deleteButton);
