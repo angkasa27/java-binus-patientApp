@@ -28,23 +28,23 @@ public class UpdatePatientForm {
     grid.setHgap(10);
     grid.setVgap(10);
 
-    Label nikLabel = new Label("NIK:");
+    Label nikLabel = new Label("NIK");
     nikField = new TextField(patient.getNik());
     nikField.setDisable(true);
     grid.add(nikLabel, 0, 0);
     grid.add(nikField, 1, 0);
 
-    Label nameLabel = new Label("Name:");
+    Label nameLabel = new Label("Nama");
     nameField = new TextField(patient.getName());
     grid.add(nameLabel, 0, 1);
     grid.add(nameField, 1, 1);
 
-    Label addressLabel = new Label("Address:");
+    Label addressLabel = new Label("Alamat");
     addressField = new TextField(patient.getAddress());
     grid.add(addressLabel, 0, 2);
     grid.add(addressField, 1, 2);
 
-    Label dobLabel = new Label("Date of Birth:");
+    Label dobLabel = new Label("Tanggal Lahir");
     dobPicker = new DatePicker();
     dobPicker.setValue(LocalDate.parse(patient.getDate()));
     grid.add(dobLabel, 0, 3);
