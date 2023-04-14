@@ -95,8 +95,29 @@ public class PatientTableView extends Application {
       }
     });
 
+    TableColumn<Patient, Integer> indexColumn = new TableColumn<>("No");
+    indexColumn.setSortable(false);
+    indexColumn.setPrefWidth(50);
+
+    indexColumn.setCellFactory(column -> {
+      return new TableCell<Patient, Integer>() {
+        @Override
+        protected void updateItem(Integer item, boolean empty) {
+          super.updateItem(item, empty);
+
+          if (empty) {
+            setText(null);
+          } else {
+            int index = getIndex() + 1;
+            setText(String.valueOf(index));
+          }
+        }
+      };
+    });
+
     TableView<Patient> patientTableView = new TableView<>();
     patientTableView.setItems(patientObservableList);
+    patientTableView.getColumns().add(indexColumn);
     patientTableView.getColumns().add(nikColumn);
     patientTableView.getColumns().add(nameColumn);
     patientTableView.getColumns().add(addressColumn);
